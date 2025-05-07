@@ -1,14 +1,18 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Platform } from "react-native";
 import Movies from "./Movies";
 import People from "./People";
+import Details from "./Details";
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+function NavigationOptions() {
   return (
-    <NavigationContainer>
+    <>
       {Platform.OS === "ios" && (
         <Tab.Navigator>
           <Tab.Screen name="Movies" component={Movies} />
@@ -18,9 +22,24 @@ export default function App() {
       {Platform.OS == "android" && (
         <Drawer.Navigator>
           <Drawer.Screen name="Movies" component={Movies} />
-          <Drawer.Screen name="People" component={Peopl} />
+          <Drawer.Screen name="People" component={People} />
         </Drawer.Navigator>
       )}
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Back"
+          component={NavigationOptions}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Details" component={Details} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

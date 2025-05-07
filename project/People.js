@@ -16,15 +16,13 @@ import Card from "./Card";
 
 import { styles } from "./styles";
 
-export default function People() {
+export default function People({ navigation }) {
   const [items, setItems] = useState([]);
 
   const [swipedCard, setSwipedCard] = useState("");
 
-  function onSwipe(name) {
-    return () => {
-      setSwipedCard(name);
-    };
+  function onSwipe(item) {
+    return () => navigation.navigate("Details", { type: "person", item: item });
   }
   useEffect(() => {
     async function fetchCourses() {
@@ -51,11 +49,7 @@ export default function People() {
       <ScrollView style={styles.container}>
         {items.map((item, index) => {
           return (
-            <Card
-              title={item.name}
-              onSwipe={onSwipe(item.name)}
-              key={index}
-            ></Card>
+            <Card title={item.name} onSwipe={onSwipe(item)} key={index}></Card>
           );
         })}
       </ScrollView>

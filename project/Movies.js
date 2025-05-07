@@ -16,15 +16,13 @@ import Card from "./Card";
 
 import { styles } from "./styles";
 
-export default function Movies() {
+export default function Movies({ navigation }) {
   const [items, setItems] = useState([]);
 
   const [swipedCard, setSwipedCard] = useState("");
 
-  function onSwipe(name) {
-    return () => {
-      setSwipedCard(name);
-    };
+  function onSwipe(item) {
+    return () => navigation.navigate("Details", { type: "movie", item: item });
   }
   useEffect(() => {
     async function fetchCourses() {
@@ -52,7 +50,7 @@ export default function Movies() {
       <ScrollView style={styles.container}>
         {items.map((item, index) => {
           return (
-            <Card title={item.title} onSwipe={onSwipe(item.title)} key={index}>
+            <Card title={item.title} onSwipe={onSwipe(item)} key={index}>
               <Text>{item.overview}</Text>
             </Card>
           );
