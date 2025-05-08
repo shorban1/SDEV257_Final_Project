@@ -15,20 +15,20 @@ import Card from "./Card";
 
 import { styles } from "./styles";
 
-export default function People({ navigation }) {
+export default function Shows({ navigation }) {
   const [items, setItems] = useState([]);
 
   function onSwipe(item) {
     return async () => {
       const response = await fetch(
-        "https://api.themoviedb.org/3/person/" +
+        "https://api.themoviedb.org/3/tv/" +
           item.id +
-          "?api_key=1355d4fa4ebc328071668f2d43077d83&append_to_response=combined_credits"
+          "?api_key=1355d4fa4ebc328071668f2d43077d83&append_to_response=aggregate_credits"
       );
 
       const json = await response.json();
       navigation.navigate("Details", {
-        type: "person",
+        type: "show",
         item: json,
       });
     };
@@ -36,7 +36,7 @@ export default function People({ navigation }) {
   async function onSearch(e) {
     if (e.nativeEvent.text.length > 0) {
       const response = await fetch(
-        "https://api.themoviedb.org/3/search/person?query=" +
+        "https://api.themoviedb.org/3/search/tv?query=" +
           e.nativeEvent.text +
           "&include_adult=false&language=en-US&page=1&api_key=1355d4fa4ebc328071668f2d43077d83"
       );
@@ -46,7 +46,7 @@ export default function People({ navigation }) {
       console.log(JSON.stringify(json));
     } else {
       const response = await fetch(
-        "https://api.themoviedb.org/3/person/popular?api_key=1355d4fa4ebc328071668f2d43077d83"
+        "https://api.themoviedb.org/3/tv/popular?api_key=1355d4fa4ebc328071668f2d43077d83"
       );
 
       const json = await response.json();
@@ -55,15 +55,16 @@ export default function People({ navigation }) {
     }
   }
   useEffect(() => {
-    async function fetchCourses() {
+    async function fetchMovies() {
       const response = await fetch(
-        "https://api.themoviedb.org/3/person/popular?api_key=1355d4fa4ebc328071668f2d43077d83"
+        "https://api.themoviedb.org/3/tv/popular?api_key=1355d4fa4ebc328071668f2d43077d83"
       );
-      const items = await response.json();
-      setItems(items.results);
+
+      const json = await response.json();
+      setItems(json.results);
     }
 
-    fetchCourses();
+    fetchMovies();
   }, []);
   return (
     <View style={styles.container}>
@@ -77,7 +78,7 @@ export default function People({ navigation }) {
                 <Card
                   title={item.name}
                   source={{
-                    uri: "https://image.tmdb.org/t/p/w154" + item.profile_path,
+                    uri: "https://image.tmdb.org/t/p/w185" + item.poster_path,
                   }}
                   onSwipe={onSwipe(item)}
                   key={index}
