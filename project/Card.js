@@ -9,25 +9,18 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { styles } from "./styles";
+import LazyImage from "./LazyImage";
 
 export default function Card(props) {
-  function onScroll(e) {
-    Math.abs(e.nativeEvent.contentOffset.x) > 100 && props.onSwipe();
-  }
-
-  const scrollProps = {
-    horizontal: true,
-    pagingEnabled: true,
-    showsHorizontalScrollIndicator: false,
-    scrollEventThrottle: 20,
-    onScroll,
-  };
   return (
-    <ScrollView style={styles.swipeArea} {...scrollProps}>
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>{props.title}</Text>
-        {props.children}
-      </View>
-    </ScrollView>
+    <View style={styles.card}>
+      <TouchableOpacity onPress={props.onSwipe}>
+        <LazyImage style={styles.cardImage} source={props.source} />
+        <View style={styles.cardContent}>
+          <Text style={styles.cardTitle}>{props.title}</Text>
+          {props.children}
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 }

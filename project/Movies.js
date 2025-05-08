@@ -22,10 +22,23 @@ export default function Movies({ navigation }) {
   const [swipedCard, setSwipedCard] = useState("");
 
   function onSwipe(item) {
-    return () => navigation.navigate("Details", { type: "movie", item: item });
+    return async () => {
+      const response = await fetch(
+        "https://api.themoviedb.org/3/movie/" +
+          item.id +
+          "/credits?api_key=1355d4fa4ebc328071668f2d43077d83"
+      );
+
+      const json = await response.json();
+      navigation.navigate("Details", {
+        type: "movie",
+        item: item,
+        credits: json,
+      });
+    };
   }
   useEffect(() => {
-    async function fetchCourses() {
+    async function fetchMovies() {
       const response = await fetch(
         "https://api.themoviedb.org/3/movie/popular?api_key=1355d4fa4ebc328071668f2d43077d83"
       );
@@ -34,10 +47,10 @@ export default function Movies({ navigation }) {
       setItems(items.results);
     }
 
-    fetchCourses();
+    fetchMovies();
   });
   return (
-    <>
+    <View style={styles.container}>
       <ConnectionStatus />
       <Search></Search>
       <ResponseModal
@@ -47,15 +60,24 @@ export default function Movies({ navigation }) {
           setSwipedCard("");
         }}
       ></ResponseModal>
-      <ScrollView style={styles.container}>
-        {items.map((item, index) => {
-          return (
-            <Card title={item.title} onSwipe={onSwipe(item)} key={index}>
-              <Text>{item.overview}</Text>
-            </Card>
-          );
-        })}
+      <ScrollView contentContatinerStyle={styles.scrollContainer}>
+        <View style={styles.cardContainer}>
+          {items.map((item, index) => {
+            return (
+              <Card
+                title={item.title}
+                source={{
+                  uri: "https://image.tmdb.org/t/p/w185" + item.poster_path,
+                }}
+                onSwipe={onSwipe(item)}
+                key={index}
+              >
+                <Text>{item.release_date}</Text>
+              </Card>
+            );
+          })}
+        </View>
       </ScrollView>
-    </>
+    </View>
   );
 }

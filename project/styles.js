@@ -4,22 +4,33 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
   },
-  swipeArea: {
-    flex: 1,
+  scrollContainer: {},
+  cardContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
   card: {
-    flex: 1,
+    flexShrink: 0,
     padding: 10,
     margin: 10,
     backgroundColor: "#fefefe",
     borderRadius: 10,
-    width: 350,
+    width: 165,
+  },
+  cardImage: {
+    height: 215,
+    width: 145,
   },
   cardTitle: {
     fontSize: 20,
     color: "#0066ff",
+    textAlign: "center",
+  },
+  cardContent: {
+    alignItems: "center",
+    textAlign: "center",
   },
   search: {
     height: 35,
