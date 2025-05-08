@@ -84,7 +84,7 @@ export default function Details(props) {
           <Text>{"Revenue: $" + item.revenue}</Text>
           <View style={styles.cardContainer}>
             {item.credits.cast.map((person, index) => {
-              if (!person.adult) {
+              if (!person.adult && index < 100) {
                 return (
                   <Card
                     title={person.name}
@@ -121,7 +121,7 @@ export default function Details(props) {
           <Text>{"Seasons " + item.last_episode_to_air.season_number}</Text>
           <View style={styles.cardContainer}>
             {item.aggregate_credits.cast.map((person, index) => {
-              if (!person.adult) {
+              if (!person.adult && index < 100) {
                 return (
                   <Card
                     title={person.name}
@@ -170,7 +170,7 @@ export default function Details(props) {
           <Text>Appears In:</Text>
           <View style={styles.cardContainer}>
             {item.combined_credits.cast.map((work, index) => {
-              if (!work.adult) {
+              if (!work.adult && index < 100) {
                 return (
                   <Card
                     title={work.title || work.name}
