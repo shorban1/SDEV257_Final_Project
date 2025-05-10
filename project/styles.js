@@ -13,6 +13,8 @@ export const lightModeColors = {
   border: "#dce6f1",
   shadow: "#000000",
   warning: "#ff5555",
+  navigationBackground: "#ffffff",
+  navigationText: "#000000",
 };
 
 export const darkModeColors = {
@@ -28,8 +30,6 @@ export const darkModeColors = {
   warningText: "#eeeeee",
   navigationBackground: "#101010",
   navigationText: "#ffffff",
-  tabActive: "#eeeeee",
-  tabInactive: "#cccccc",
 };
 
 export const colors = isDark ? darkModeColors : lightModeColors;
