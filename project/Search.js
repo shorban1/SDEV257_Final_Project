@@ -8,11 +8,11 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-
-import { styles } from "./styles";
+import { styles, colors } from "./styles";
 
 export default function Search({ onSearch }) {
   const [submittedText, setSubmittedText] = useState("");
+
   return (
     <>
       <TextInput
@@ -24,6 +24,7 @@ export default function Search({ onSearch }) {
         onFocus={() => {
           setSubmittedText("");
         }}
+        placeholderTextColor={colors.placeholderText}
       />
     </>
   );

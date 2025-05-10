@@ -10,8 +10,9 @@ const connectedMap = {
   mobile: true,
 };
 
-export default function ConnectionStatus() {
+export default function ConnectionStatus(props) {
   const [connected, setConnected] = useState("");
+
   useEffect(() => {
     function onNetworkChange(connection) {
       setConnected(connectedMap[connection.type]);

@@ -8,8 +8,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { styles } from "./styles";
 import LazyImage from "./LazyImage";
+
+import { styles } from "./styles";
 
 export default function Card(props) {
   return (

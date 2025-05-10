@@ -69,7 +69,7 @@ export default function Shows({ navigation }) {
   return (
     <View style={styles.container}>
       <ConnectionStatus />
-      <Search onSearch={onSearch}></Search>
+      <Search onSearch={onSearch} styleSet={styles}></Search>
       <ScrollView contentContatinerStyle={styles.scrollContainer}>
         <View style={styles.cardContainer}>
           {items.map((item, index) => {

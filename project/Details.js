@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -20,7 +20,10 @@ export default function Details(props) {
   const item = props.route.params.item;
   const credits = props.route.params.credits;
 
+  const scrollRef = useRef();
+
   function onPressHandler(newType, newItem) {
+    scrollRef.current?.scrollTo({ y: 0, animated: false });
     if (newType == "movie") {
       return async () => {
         const response = await fetch(
@@ -70,18 +73,21 @@ export default function Details(props) {
     return (
       <View style={styles.container}>
         <ConnectionStatus />
-        <ScrollView>
+        <ScrollView ref={scrollRef}>
           <LazyImage
             style={{ width: "100%", height: 200 }}
             source={{
               uri: "https://image.tmdb.org/t/p/w500" + item.backdrop_path,
             }}
           />
-          <Text>{item.title}</Text>
-          <Text>{item.overview}</Text>
-          <Text>{"Release Date: " + item.release_date}</Text>
-          <Text>{"Runtime: " + item.runtime}</Text>
-          <Text>{"Revenue: $" + item.revenue}</Text>
+          <Text style={styles.titleText}>{item.title}</Text>
+          <Text style={styles.bodyText}>{item.overview}</Text>
+          <Text style={styles.labelText}>
+            {"Release Date: " + item.release_date}
+          </Text>
+          <Text style={styles.labelText}>{"Runtime: " + item.runtime}</Text>
+          <Text style={styles.labelText}>{"Revenue: $" + item.revenue}</Text>
+          <Text style={styles.subtitleText}>Cast:</Text>
           <View style={styles.cardContainer}>
             {item.credits.cast.map((person, index) => {
               if (!person.adult && index < 100) {
@@ -95,7 +101,7 @@ export default function Details(props) {
                     onSwipe={onPressHandler("person", person)}
                     key={index}
                   >
-                    <Text>{person.character}</Text>
+                    <Text style={styles.cardText}>{person.character}</Text>
                   </Card>
                 );
               }
@@ -108,17 +114,22 @@ export default function Details(props) {
     return (
       <View style={styles.container}>
         <ConnectionStatus />
-        <ScrollView>
+        <ScrollView ref={scrollRef}>
           <LazyImage
             style={{ width: "100%", height: 200 }}
             source={{
               uri: "https://image.tmdb.org/t/p/w500" + item.backdrop_path,
             }}
           />
-          <Text>{item.name}</Text>
-          <Text>{item.overview}</Text>
-          <Text>{"First Aired: " + item.first_air_date}</Text>
-          <Text>{"Seasons " + item.last_episode_to_air.season_number}</Text>
+          <Text style={styles.titleText}>{item.name}</Text>
+          <Text style={styles.bodyText}>{item.overview}</Text>
+          <Text style={styles.labelText}>
+            {"First Aired: " + item.first_air_date}
+          </Text>
+          <Text style={styles.labelText}>
+            {"Seasons " + item.last_episode_to_air.season_number}
+          </Text>
+          <Text style={styles.subtitleText}>Cast:</Text>
           <View style={styles.cardContainer}>
             {item.aggregate_credits.cast.map((person, index) => {
               if (!person.adult && index < 100) {
@@ -132,7 +143,7 @@ export default function Details(props) {
                     onSwipe={onPressHandler("person", person)}
                     key={index}
                   >
-                    <Text>{person.character}</Text>
+                    <Text style={styles.cardText}>{person.character}</Text>
                   </Card>
                 );
               }
@@ -145,29 +156,33 @@ export default function Details(props) {
     return (
       <View style={styles.container}>
         <ConnectionStatus />
-        <ScrollView>
+        <ScrollView ref={scrollRef}>
           <View style={styles.flexRow}>
             <LazyImage
-              style={styles.cardImage}
+              style={styles.personImage}
               source={{
                 uri: "https://image.tmdb.org/t/p/w500" + item.profile_path,
               }}
             />
-            <View>
-              <Text>{item.name}</Text>
-              <Text>
-                {item.gender == 1 && "Female"}
+            <View style={styles.personInfo}>
+              <Text style={styles.personTitle}>{item.name}</Text>
+              <Text style={styles.labelText}>
+                Gender: {item.gender == 1 && "Female"}
                 {item.gender == 2 && "Male"}
               </Text>
-              <Text>Born: {item.birthday + " " + item.place_of_birth}</Text>
-              {item.deathday && <Text>Died: {item.deathday}</Text>}
+              <Text style={styles.labelText}>
+                Born: {item.birthday + " " + item.place_of_birth}
+              </Text>
+              {item.deathday && (
+                <Text style={styles.labelText}>Died: {item.deathday}</Text>
+              )}
             </View>
           </View>
-          <Text>Biography</Text>
+          <Text style={styles.subtitleText}>Biography</Text>
           <ScrollView style={styles.bioContainer}>
-            <Text>{item.biography}</Text>
+            <Text style={styles.bioText}>{item.biography}</Text>
           </ScrollView>
-          <Text>Appears In:</Text>
+          <Text style={styles.subtitleText}>Appears In:</Text>
           <View style={styles.cardContainer}>
             {item.combined_credits.cast.map((work, index) => {
               if (!work.adult && index < 100) {
@@ -184,7 +199,9 @@ export default function Details(props) {
                     }
                     key={index}
                   >
-                    <Text>{work.release_date || work.first_air_date}</Text>
+                    <Text style={styles.cardText}>
+                      {work.release_date || work.first_air_date}
+                    </Text>
                   </Card>
                 );
               }

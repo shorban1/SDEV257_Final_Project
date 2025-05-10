@@ -83,7 +83,7 @@ export default function Movies({ navigation }) {
                   onSwipe={onSwipe(item)}
                   key={index}
                 >
-                  <Text>{item.release_date}</Text>
+                  <Text style={styles.cardText}>{item.release_date}</Text>
                 </Card>
               );
             }
